@@ -7,10 +7,13 @@ project is an application which visualize and store data real time data from dif
 The v0.01 simply demonstrates the plotting of pre-aquired data stored with sqlite3.
 
 
-sensorDHT.db file has measured data from Arduino using DHT22 sensor. It's only for testing purpose of the main window.
-The purpose is to read and plot the in real time, saving them in a archive
+sensorDHT.db:       This file has measured data from Arduino using DHT22 sensor. It's only for testing purpose of the main window.
+                    The purpose is to read and plot the in real time, saving them in a archive
 
-tkDB.py contains two class. The GUI class and the DATA class. The first one implement the appearance of the GUI and the other
-plot the data.
+tkDB.py:            This contains two class. The GUI class and the DATA class. The first one implement the appearance of 
+                    the GUI and the other plot the data.
 
-schemaDB.py contains a class with two staticmethods which return a list of tables and a list of fields each.
+schemaDB.py:        This contains a class with two staticmethods which return a list of tables and a list of fields each.
+
+serial_Comm_GUI.py: It is a standalone serial monitor GUI, like Arduino's one. It is seperated from the above descripted scripts.
+                    It will be added in the future in the main application.
