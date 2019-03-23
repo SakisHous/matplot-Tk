@@ -1,9 +1,9 @@
 """
-    A graphical user interface which opens the COM4 port for communication with Arduino
-    Author: Th. Housiadas
-    Date: 06 - Jul - 2018
-    Version: 0.1.1
-
+    A graphical user interface which opens the port for communication with Arduino
+    Author: Th. Chousiadas
+    Previous Update: 06 - Jul - 2018
+    Last Update: 20 - Mar - 2018
+    Version: 0.2.0
 """
 import tkinter as tk
 from multiprocessing import Queue
@@ -18,19 +18,22 @@ class SerialCommunication:
         self.root = root
         self.queue = Queue()
         self.run = True
+
         try:
-            self.ser = serial.Serial(port='COM4', baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
-                            bytesize=serial.EIGHTBITS, timeout=0)
+            # docs: https://pyserial.readthedocs.io/en/latest/tools.html
+            import serial.tools.list_ports
+            # it returns a list with the open ports. In our example we know a priori that we get only one port
+            port = serial.tools.list_ports.comports()[0]
+            self.ser = serial.Serial(port=port.device, baudrate=9600, parity=serial.PARITY_NONE,
+                                     stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=0)
             self.gui = App(self.root, self.queue, self.ser)
             self.thread1 = threading.Thread(target=self.data_input)
             self.thread1.start()
-        except serial.SerialException:
+        except IndexError:
             self.error = tk.Frame(self.root, bg='lightgrey')
             self.error.pack()
-            self.lab = tk.Label(self.error, text='COM not found', font='Consolas 20', bg='lightgrey')
+            self.lab = tk.Label(self.error, text='Port not found', font='Consolas 20', bg='lightgrey')
             self.lab.pack()
-
-
 
     def data_input(self):
         seq = []
@@ -136,8 +139,8 @@ class App:
         self.root.after(200, self.periodic_call)
 
     def get_entry(self, events):
-        ind = self.entry.get() + '\n'            # I have added the newline character because in the arduino code
-        ind_bytes = str.encode(ind)              # i have implemented like this
+        ind = self.entry.get() + '\n'            
+        ind_bytes = str.encode(ind)              
         self.ser.write(ind_bytes)
         print(ind_bytes)
         self.entry.delete('0', 'end')
@@ -149,6 +152,4 @@ if __name__ == '__main__':
     root.mainloop()
     serA.close_app()
     import sys
-    sys.exit(0)
-
-
+sys.exit(0)
