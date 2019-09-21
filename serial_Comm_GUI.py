@@ -1,7 +1,7 @@
 """
     A graphical user interface which opens the port for communication with Arduino
     Author: Th. Chousiadas
-    Previous Update: 06 - Jul - 2018
+    Previous Update: 06 - Jul - 2017
     Last Update: 20 - Mar - 2018
     Version: 0.2.0
 """
